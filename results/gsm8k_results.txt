@@ -1,0 +1,76 @@
+Rank 0 | device cuda:0
+Rank 3 | device cuda:3
+Loading model …
+Rank 1 | device cuda:1
+Loading model …
+Rank 2 | device cuda:2
+Loading model …
+Loading model …
+trainable params: 3,407,872 || all params: 7,251,431,424 || trainable%: 0.0470
+trainable params: 3,407,872 || all params: 7,251,431,424 || trainable%: 0.0470
+trainable params: 3,407,872 || all params: 7,251,431,424 || trainable%: 0.0470
+trainable params: 3,407,872 || all params: 7,251,431,424 || trainable%: 0.0470
+✓ Training done
+✓ Training done✓ Training done
+✓ Training done
+
+Eval acc: 0.6250
+Eval acc: 0.5625
+Eval acc: 0.5833
+Eval acc: 0.4375
+Eval acc: 0.4000
+Eval acc: 0.3958
+Eval acc: 0.4643
+Eval acc: 0.5000
+Eval acc: 0.5139
+Eval acc: 0.5250
+Eval acc: 0.5455
+Eval acc: 0.5625
+Eval acc: 0.5385
+Eval acc: 0.5446
+Eval acc: 0.5417
+Eval acc: 0.5391
+Eval acc: 0.5662
+Eval acc: 0.5694
+Eval acc: 0.5592
+Eval acc: 0.5500
+Eval acc: 0.5417
+Eval acc: 0.5455
+Eval acc: 0.5435
+Eval acc: 0.5469
+Eval acc: 0.5500
+Eval acc: 0.5529
+Eval acc: 0.5602
+Eval acc: 0.5625
+Eval acc: 0.5733
+Eval acc: 0.5708
+Eval acc: 0.5605
+Eval acc: 0.5625
+Eval acc: 0.5606
+Eval acc: 0.5588
+Eval acc: 0.5536
+Eval acc: 0.5486
+Eval acc: 0.5574
+Eval acc: 0.5592
+Eval acc: 0.5513
+Eval acc: 0.5563
+Eval acc: 0.5579
+Eval acc: 0.5595
+Eval acc: 0.5610
+Eval acc: 0.5682
+Eval acc: 0.5639
+Eval acc: 0.5652
+Eval acc: 0.5612
+Eval acc: 0.5625
+Eval acc: 0.5638
+Eval acc: 0.5650
+Eval acc: 0.5637
+Eval acc: 0.5625
+Eval acc: 0.5613
+Eval acc: 0.5625
+Eval acc: 0.5591
+Eval acc: 0.5625
+Eval acc: 0.5614
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mdistill_naive[0m at: [34mhttps://wandb.ai/vjd5zr/multi-student-distillation/runs/ez3ojyiv[0m
+[1;34mwandb[0m: Find logs at: [1;35m../../../../sfs/weka/scratch/vjd5zr/project/distill/wandb/run-20250514_153144-ez3ojyiv/logs[0m
