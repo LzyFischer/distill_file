@@ -221,7 +221,7 @@ def main():
             continue
         for jsonl in dir_path.rglob("cot_response.jsonl"):
             # if files contains "train/"
-            if "train/" in str(jsonl):
+            if "test/" in str(jsonl):
                 print(f"! {jsonl} – skip")
                 continue
             process_file(jsonl, ds, args.n, args.model)
