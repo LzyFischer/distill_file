@@ -206,7 +206,7 @@ def process_file(path: Path, dataset: str, n_prompts: int, model):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--root", default=".data/")
-    p.add_argument("--dataset", choices=list(dataset_prompt)+["all"], default="all")
+    p.add_argument("--dataset", choices=["tmp"]+list(dataset_prompt)+["all"], default="all")
     p.add_argument("--n", type=int, default=5)
     p.add_argument("--model", default="pro")
     p.add_argument("--temp", type=float, default=0.8)
