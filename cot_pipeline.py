@@ -11,11 +11,17 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List
 import pdb
+from tqdm import tqdm
 
 # try:
 #     import google.generativeai as genai  # type: ignore
 # except ImportError as e:  # pragma: no cover
 #     raise SystemExit("pip install google-generativeai  # required to call Gemini") from e
+
+def batch_call_gemini_api(prompts: List[str], model) -> List[str]:
+    """Call the Gemini API with a list of prompts."""
+    # return asyncio.run(batch_call(prompts, model))
+    return asyncio.run(batch_call(prompts, model))
 
 # ------------------ import provided utils ----------------------------------
 from utils import (
@@ -23,6 +29,7 @@ from utils import (
     get_number_choice,
     get_true_false,
     get_yes_no,
+    extract_answer_anli
 )
 from math_utils import is_math_correct, parse_math_boxed, parse_boxed
 
@@ -108,17 +115,15 @@ TFN_RE = re.compile(r"(true|false|neither)", re.I)
 def extract_pred(dataset: str, text: str):
     if not text:
         return "N/A"
-    if dataset in {"commonsense_qa", "arc_challenge", "date"}:
+    if dataset in {"commonsense_qa", "arc_challenge", "date",}:
         return get_alphabet_choice(text).upper()
     if dataset == "anli":
-        m = TFN_RE.findall(text)
-        return m[-1].lower() if m else "N/A"  # returns 'true' 'false' or 'neither'
+        # text = remove_backward_answer(text)
+        return extract_answer_anli(text)
     if dataset == "strategy_qa":
         return get_yes_no(text)
-    if dataset in {"math", "gsm8k"}:
+    if dataset in {"math", "gsm8k", "table_mwp"}:
         return parse_math_boxed(text)
-    if dataset == "table_mwp":
-        return parse_boxed(text)
     return "N/A"
 
 ###############################################################################
@@ -161,11 +166,12 @@ def process_file(path: Path, dataset: str, n_prompts: int, model):
     # print(f"→ {path.relative_to(Path.cwd())}")
     rows = [json.loads(l) for l in path.open()]
     enriched, correct_subset = [], []
-    for samp in rows:
+    pdb.set_trace()
+    for samp in tqdm(rows):
         samp["gold_answer"] = gold_norm(dataset, samp)
         prompts = build_prompts(samp, dataset, n_prompts)
-        # replies = asyncio.run(batch_call_gemini_api(prompts, model))
-        replies = batch_call_gemini_api(prompts, model)
+        replies = asyncio.run(batch_call_gemini_api(prompts, model))
+        # replies = batch_call_gemini_api(prompts, model)
         preds = [extract_pred(dataset, r) for r in replies]
         flags = [evaluate_pred(dataset, p, samp["gold_answer"]) for p in preds]
         samp.update({
@@ -205,9 +211,9 @@ def process_file(path: Path, dataset: str, n_prompts: int, model):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--root", default=".data/")
+    p.add_argument("--root", default="./data/")
     p.add_argument("--dataset", choices=["tmp"]+list(dataset_prompt)+["all"], default="all")
-    p.add_argument("--n", type=int, default=5)
+    p.add_argument("--n", type=int, default=6)
     p.add_argument("--model", default="pro")
     p.add_argument("--temp", type=float, default=0.8)
     args = p.parse_args()
