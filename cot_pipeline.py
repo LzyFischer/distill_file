@@ -125,6 +125,8 @@ def extract_pred(dataset: str, text: str):
         return get_yes_no(text)
     if dataset in {"math", "gsm8k", "table_mwp"}:
         return parse_math_boxed(text)
+    if dataset == "tmp":
+        return parse_math_boxed(text)
     return "N/A"
 
 ###############################################################################
