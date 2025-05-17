@@ -219,7 +219,7 @@ def main():
     args = p.parse_args()
 
     # model = configure_gemini(args.model, args.temp)
-    targets = [args.dataset] if args.dataset != "all" else list(dataset_prompt)
+    targets = [args.dataset] if args.dataset != "all" else ["tmp"] + list(dataset_prompt)
     for ds in targets:
         dir_path = Path(args.root) / ds
         if not dir_path.exists():
