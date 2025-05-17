@@ -11,17 +11,19 @@ from pathlib import Path
 from typing import Any, Dict, List
 import pdb
 from tqdm import tqdm
-# from call_api import batch_call_gemini_api
+from call_api import batch_call_gemini_api
 
 # try:
 #     import google.generativeai as genai  # type: ignore
 # except ImportError as e:  # pragma: no cover
 #     raise SystemExit("pip install google-generativeai  # required to call Gemini") from e
 
-def batch_call_gemini_api(prompts: List[str], model) -> List[str]:
-    """Call the Gemini API with a list of prompts."""
-    # return asyncio.run(batch_call(prompts, model))
-    return asyncio.run(batch_call(prompts, model))
+# def batch_call_gemini_api(prompts: List[str], model) -> List[str]:
+#     """Here just output the prompts, in order to test the pipeline."""
+#     # return asyncio.run(batch_call(prompts, model))
+#     # return ["This is a test response."] * len(prompts)
+#     return [f"Response for prompt {i}: {p}" for i, p in enumerate(prompts)]
+#     # return ["This is a test response."] * len(prompts)
 
 # ------------------ import provided utils ----------------------------------
 from utils import (
