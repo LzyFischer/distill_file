@@ -18,10 +18,10 @@ from tqdm import tqdm
 # except ImportError as e:  # pragma: no cover
 #     raise SystemExit("pip install google-generativeai  # required to call Gemini") from e
 
-def batch_call_gemini_api(prompts: List[str], model) -> List[str]:
-    """Call the Gemini API with a list of prompts."""
-    # return asyncio.run(batch_call(prompts, model))
-    return asyncio.run(batch_call(prompts, model))
+# def batch_call_gemini_api(prompts: List[str], model) -> List[str]:
+#     """Call the Gemini API with a list of prompts."""
+#     # return asyncio.run(batch_call(prompts, model))
+#     return asyncio.run(batch_call(prompts, model))
 
 # ------------------ import provided utils ----------------------------------
 from utils import (
@@ -170,8 +170,8 @@ def process_file(path: Path, dataset: str, n_prompts: int, model):
     for samp in tqdm(rows):
         samp["gold_answer"] = gold_norm(dataset, samp)
         prompts = build_prompts(samp, dataset, n_prompts)
-        replies = asyncio.run(batch_call_gemini_api(prompts, model))
-        # replies = batch_call_gemini_api(prompts, model)
+        # replies = asyncio.run(batch_call_gemini_api(prompts, model))
+        replies = batch_call_gemini_api(prompts, model)
         preds = [extract_pred(dataset, r) for r in replies]
         flags = [evaluate_pred(dataset, p, samp["gold_answer"]) for p in preds]
         samp.update({
