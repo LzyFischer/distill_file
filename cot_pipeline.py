@@ -140,7 +140,7 @@ def gold_norm(dataset: str, sample: Dict[str, Any]):
         return sample["label"].lower()
     if dataset == "strategy_qa":
         return "yes" if sample["answer"] else "no"
-    if dataset in {"math", "gsm8k"}:
+    if dataset in {"math", "gsm8k", "tmp"}:
         return sample["answer"]  # latex / numeric string
     if dataset == "table_mwp":
         return sample["answer"]
@@ -151,7 +151,7 @@ def gold_norm(dataset: str, sample: Dict[str, Any]):
 ###############################################################################
 
 def evaluate_pred(dataset: str, pred: str, gold: str) -> bool:
-    if dataset in {"math", "gsm8k", "table_mwp"}:
+    if dataset in {"math", "gsm8k", "table_mwp", "tmp"}:
         return is_math_correct(pred, gold)
     return pred == gold
 
