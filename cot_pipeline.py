@@ -11,17 +11,17 @@ from pathlib import Path
 from typing import Any, Dict, List
 import pdb
 from tqdm import tqdm
-from call_api import batch_call_gemini_api
+# from call_api import batch_call_gemini_api
 
 # try:
 #     import google.generativeai as genai  # type: ignore
 # except ImportError as e:  # pragma: no cover
 #     raise SystemExit("pip install google-generativeai  # required to call Gemini") from e
 
-# def batch_call_gemini_api(prompts: List[str], model) -> List[str]:
-#     """Call the Gemini API with a list of prompts."""
-#     # return asyncio.run(batch_call(prompts, model))
-#     return asyncio.run(batch_call(prompts, model))
+def batch_call_gemini_api(prompts: List[str], model) -> List[str]:
+    """Call the Gemini API with a list of prompts."""
+    # return asyncio.run(batch_call(prompts, model))
+    return asyncio.run(batch_call(prompts, model))
 
 # ------------------ import provided utils ----------------------------------
 from utils import (
@@ -79,16 +79,7 @@ def _mc_prompt(question: str, choice_lines: str, n_choices: int) -> str:
 
 
 dataset_prompt: Dict[str, Any] = {
-    "math": lambda s: f"Question: {s['question']}\n\nPlease put your final answer within \\boxed{{}}.",
-    "gsm8k": lambda s: f"Question: {s['question']}\n\nPlease put your final answer within \\boxed{{}}.",
-    "table_mwp": lambda s: (
-        f"Read the following table then answer the question:\n\n{s['table']}\n\nQuestion: {s['question']}\n\nPlease put your final answer within \\boxed{{}}."
-    ),
-    "commonsense_qa": lambda s: _mc_prompt(
-        s["question"],
-        "\n".join(f"{l}. {t}" for l, t in zip(s["choices"]["label"], s["choices"]["text"])),
-        5,
-    ),
+    "tmp": lambda s: f"Question: {s['question']}\n\nPlease put your final answer within \\boxed{{}}.",
     "date": lambda s: _mc_prompt(
         s["question"],
         "\n".join(f"{l}. {t}" for l, t in zip(s["choices"]["label"], s["choices"]["text"])),
@@ -103,6 +94,16 @@ dataset_prompt: Dict[str, Any] = {
         f"Given that \"{s['premise']}\"\nQuestion: {s['hypothesis']} True, False, or Neither?\n\nPlease conclude with your final answer in \n\nAnswer: "
     ),
     "strategy_qa": lambda s: f"Question: Yes or No: {s['question']}\n\nPlease conclude with either \"Yes\" or \"No\".",
+    "gsm8k": lambda s: f"Question: {s['question']}\n\nPlease put your final answer within \\boxed{{}}.",
+    "math": lambda s: f"Question: {s['question']}\n\nPlease put your final answer within \\boxed{{}}.",
+    "commonsense_qa": lambda s: _mc_prompt(
+        s["question"],
+        "\n".join(f"{l}. {t}" for l, t in zip(s["choices"]["label"], s["choices"]["text"])),
+        5,
+    ),
+    "table_mwp": lambda s: (
+        f"Read the following table then answer the question:\n\n{s['table']}\n\nQuestion: {s['question']}\n\nPlease put your final answer within \\boxed{{}}."
+    ),
 }
 
 ###############################################################################
@@ -212,14 +213,14 @@ def process_file(path: Path, dataset: str, n_prompts: int, model):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--root", default="./data/")
-    p.add_argument("--dataset", choices=["tmp"]+list(dataset_prompt)+["all"], default="all")
+    p.add_argument("--dataset", choices=list(dataset_prompt)+["all"], default="all")
     p.add_argument("--n", type=int, default=6)
     p.add_argument("--model", default="pro")
     p.add_argument("--temp", type=float, default=0.8)
     args = p.parse_args()
 
     # model = configure_gemini(args.model, args.temp)
-    targets = [args.dataset] if args.dataset != "all" else ["tmp"] + list(dataset_prompt)
+    targets = [args.dataset] if args.dataset != "all" else list(dataset_prompt)
     for ds in targets:
         dir_path = Path(args.root) / ds
         if not dir_path.exists():

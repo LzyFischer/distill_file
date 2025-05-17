@@ -1,0 +1,2 @@
+cd ..
+python cot_pipeline.py --dataset table_mwp

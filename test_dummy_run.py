@@ -67,7 +67,7 @@ def offline_main(data_root="."):
 
         # Backup CLI args and replace
         argv_backup = sys.argv[:]
-        sys.argv = ["cot_pipeline.py", "--root", data_root, "--n", "3"]
+        sys.argv = ["cot_pipeline.py", "--root", data_root, "--n", "6", "--dataset", "tmp"]
 
         try:
             cot_pipeline.main()      # executes with the patched functions
