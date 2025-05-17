@@ -1,5 +1,4 @@
 #########################################################################
-# from ... import batch_call_gemini_api
 #### Import code
 
 
@@ -12,6 +11,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 import pdb
 from tqdm import tqdm
+from call_api import batch_call_gemini_api
 
 # try:
 #     import google.generativeai as genai  # type: ignore
@@ -166,7 +166,7 @@ def process_file(path: Path, dataset: str, n_prompts: int, model):
     # print(f"→ {path.relative_to(Path.cwd())}")
     rows = [json.loads(l) for l in path.open()]
     enriched, correct_subset = [], []
-    pdb.set_trace()
+    # pdb.set_trace()
     for samp in tqdm(rows):
         samp["gold_answer"] = gold_norm(dataset, samp)
         prompts = build_prompts(samp, dataset, n_prompts)
